@@ -1,12 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <string>
-#include <iostream>
-#include <assert.h>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-
-using namespace std;
+#include "eq.h"
 
 
 static string readfile(const string& filename) {
