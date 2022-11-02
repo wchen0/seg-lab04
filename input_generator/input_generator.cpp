@@ -10,13 +10,25 @@ static void generate_outputfiles_within_folder(const string& foldername) {
     strcat(format_file_addr, foldername.c_str());
     strcat(format_file_addr, "/stdin_format.txt");
 
+    namespace fs = std::filesystem;
     string fmt_filename = format_file_addr;
-    string ret_filename = format_file_addr;
-    for(int i = 0; i < 10; i++) {
-        ret_filename.pop_back();
+    fs::path ret_folder = format_file_addr;
+    ret_folder = ret_folder.parent_path() / "random_input";
+
+    if (access(ret_folder.c_str(), 0)) {
+        // if this folder does not exist, create it
+        if(mkdir(ret_folder.c_str(), S_IRWXU) != 0) {
+            printf("fail to create directory %s", ret_folder.c_str());
+            assert(0);
+        }
     }
-    ret_filename += "random.txt";
-    generate_input(fmt_filename, ret_filename);
+
+    for(int i = 0; i < BATCH_SIZE; i++) {
+        char tmp[12] = "";
+        sprintf(tmp, "%d.txt", i);
+        fs::path ret_filename = ret_folder / tmp;
+        generate_input(fmt_filename, ret_filename.string());
+    }
 }
 
 
@@ -48,7 +60,7 @@ void run(int argc, char** argv) {
         assert(0);
     }
     char* cur_dir = get_current_dir_name();
-    printf("loading programs from %s\n", cur_dir);
+    printf("loading stdin format file from %s\n", cur_dir);
     free(cur_dir);
 
     vector<string> foldernames = get_all_foldernames();
@@ -60,9 +72,11 @@ void run(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     if(argc <= 1) {
-        printf("name of folder is necessary\n");
+        printf("name of targeted folder is necessary\n");
         assert(0);
     }
+    // set seed for `generate_input`
+    srand((unsigned)time(0));
     run(argc, argv);
     return 0;
 }

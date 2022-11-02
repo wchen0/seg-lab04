@@ -12,6 +12,11 @@
 
 #include <dirent.h>
 #include <unistd.h>
+#include <filesystem>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#define BATCH_SIZE 12
 
 using namespace std;
 

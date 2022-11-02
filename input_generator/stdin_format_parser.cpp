@@ -60,7 +60,8 @@ static string gen_rand_string(int left, int right) {
 */
 
 static string gen_input(const string& fmt) {
-    srand((unsigned)time(0));
+	// seed set by the caller
+    // srand((unsigned)time(0));
 
     char format[301];
     strcpy(format, fmt.c_str());
