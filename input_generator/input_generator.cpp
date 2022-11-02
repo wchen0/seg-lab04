@@ -18,17 +18,19 @@ static void generate_outputfiles_within_folder(const string& foldername) {
     if (access(ret_folder.c_str(), 0)) {
         // if this folder does not exist, create it
         if(mkdir(ret_folder.c_str(), S_IRWXU) != 0) {
-            printf("fail to create directory %s", ret_folder.c_str());
+            printf_r("fail to create directory %s", ret_folder.c_str());
             assert(0);
         }
     }
-
+	
     for(int i = 0; i < BATCH_SIZE; i++) {
         char tmp[12] = "";
         sprintf(tmp, "%d.txt", i);
         fs::path ret_filename = ret_folder / tmp;
         generate_input(fmt_filename, ret_filename.string());
     }
+    printf("generate %d test cases in ", BATCH_SIZE);
+    printf_g("%s\n", ret_folder.c_str());
 }
 
 
@@ -56,11 +58,11 @@ static vector<string> get_all_foldernames() {
 
 void run(int argc, char** argv) {
     if(chdir(argv[1]) != 0) {
-        printf("fail to change directory to %s\n", argv[1]);
+        printf_r("fail to change directory to %s\n", argv[1]);
         assert(0);
     }
     char* cur_dir = get_current_dir_name();
-    printf("loading stdin format file from %s\n", cur_dir);
+    printf_g("loading stdin format file from %s\n", cur_dir);
     free(cur_dir);
 
     vector<string> foldernames = get_all_foldernames();
@@ -72,7 +74,7 @@ void run(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     if(argc <= 1) {
-        printf("name of targeted folder is necessary\n");
+        printf_r("name of targeted folder is necessary\n");
         assert(0);
     }
     // set seed for `generate_input`

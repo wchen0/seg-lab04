@@ -5,7 +5,7 @@ static string read_fmt_file(const string& filename) {
     string buf;
     FILE* fp = fopen(filename.c_str(), "r");
     if(!fp) {
-        printf("cannot find format file `%s`\n", filename.c_str());
+        printf_r("cannot find format file `%s`\n", filename.c_str());
         assert(0);
     }
     char ch = 0;
@@ -20,7 +20,7 @@ static string read_fmt_file(const string& filename) {
 static string gen_rand_int(int left, int right) {
     // return string of an random integer between left and right
     if(right < left) {
-        printf("error in gen_rand_int, left=%d, right=%d\n", left, right);
+        printf_r("error in gen_rand_int, left=%d, right=%d\n", left, right);
         assert(0);
     }
     int r = rand() % (right - left + 1) + left;
@@ -42,7 +42,7 @@ static char gen_rand_char() {
 
 static string gen_rand_string(int left, int right) {
     if(right < left) {
-        printf("error in gen_rand_string, left=%d, right=%d\n", left, right);
+        printf_r("error in gen_rand_string, left=%d, right=%d\n", left, right);
         assert(0);
     }
     int len = rand() % (right - left + 1) + left;
@@ -104,10 +104,10 @@ void generate_input(const string& fmt_filename, const string& ret_filename) {
     string input = gen_input(fmt);
     FILE* fp = fopen(ret_filename.c_str(), "w");
     if(!fp) {
-        printf("cannot write in %s\n", ret_filename.c_str());
+        printf_r("cannot write in %s\n", ret_filename.c_str());
         assert(0);
     }
     fprintf(fp, "%s", input.c_str());
     fclose(fp);
-    printf("write random data in %s\n", ret_filename.c_str());
+    // printf_g("write random data in %s\n", ret_filename.c_str());
 }
