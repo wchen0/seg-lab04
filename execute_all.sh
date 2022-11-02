@@ -40,21 +40,29 @@ do
         ((i=i+1))
     done
 
-    for prog in ${CRTDIR}/*;
+    for src_code in ${CRTDIR}/*cpp;
     do
-        if [[ $prog == ${CRTDIR}/*.cpp ]]
-        then
-            readarray -d . -t output_filename_ls<<<"$prog"
+        echo -e "run \e[31m${execut}\e[0m"
+        execut=${src_code%.*}
+        input_folder="${CRTDIR}/random_input"
+        output_folder="${execut}_out"
 
-            execut=${output_filename_ls[0]}
-            output_folder="${execut}_output"
-            mkdir output_folder
-            
-            
-            echo run "\e[41m${execut}\e[0m", input:
-            ${execut} <${CRTDIR}"/stdin_random.txt" >${output_filename}
-            echo "output generated in ${output_filename}"
+        if [ -d $output_folder ]
+        then
+            rm -r ${output_folder}
+            mkdir ${output_folder}
+        else
+            mkdir ${output_folder}
         fi
+
+        for input_file in ${input_folder}/*.txt
+        do
+            # echo -e "run \e[31m${execut}\e[0m, input=\e[31m${input_file}\e[0m"
+            k=${input_file##*/}
+            k=${k%.*}
+            ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+            # echo "output generated in ${output_folder}/${k}.txt"
+        done
     done
 
 done

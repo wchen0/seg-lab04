@@ -42,20 +42,13 @@ do
         ((i=i+1))
     done
 
-    for prog in ${CRTDIR}/*;
+    for src_code in ${CRTDIR}/*.cpp;
     do
-        if [[ $prog == ${CRTDIR}/*.cpp ]]
-        then
-            readarray -d . -t output_filename_ls<<<"$prog"
+        readarray -d . -t output_filename_ls<<<"$src_code"
 
-            execut=${output_filename_ls[0]}
-            echo -e "compile \e[31m${prog}\e[0m as \e[34m${execut}\e[0m"
-            g++ ${prog} -o ${execut} -w # ignore all warnings
-            
-            # output_filename="${output_filename_ls[0]}_output.txt"
-            # ${execut} <${CRTDIR}"/stdin_random.txt" >${output_filename}
-            # echo "output generated in ${output_filename}"
-        fi
+        execut=${output_filename_ls[0]}
+        echo -e "compile \e[31m${src_code}\e[0m as \e[34m${execut}\e[0m"
+        g++ ${src_code} -o ${execut} -w # ignore all warnings
     done
 
 done
