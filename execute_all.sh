@@ -65,7 +65,15 @@ do
             k=${k%.*}
             if [ -f $execut ]
             then
-                ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                start=$(date +%s)
+                timeout 6 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                end=$(date +%s)
+                take=$(( end - start ))
+                if [ $take -gt 5 ]
+                then
+                    echo "${execut} Run Time Error"
+                    echo "${execut} Run Time Error" >> ../../TLE.txt
+                fi
             else
                 g++ ${src_code} -o ${execut} -w # ignore all warnings
                 echo -e "compile \e[31m${src_code}\e[0m as \e[34m${execut}\e[0m"

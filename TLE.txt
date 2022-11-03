@@ -1,0 +1,3 @@
+/home/cwt/Seg/input/my_test/7 Run Time Error
+/home/cwt/Seg/input/my_test/6 Run Time Error
+/home/cwt/Seg/input/my_test/7 Run Time Error

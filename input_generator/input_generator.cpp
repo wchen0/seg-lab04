@@ -84,6 +84,7 @@ int main(int argc, char** argv) {
         }
     }
     printf("batch size=%d\n", BATCH_SIZE);
+	assert(BATCH_SIZE > 0);
 
     // set seed for `generate_input`
     srand((unsigned)time(0));

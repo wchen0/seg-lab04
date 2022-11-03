@@ -5,6 +5,9 @@ para_n=$2
 targeted_dir="./input"
 
 
+start=$(date +%s)
+
+
 function move_output() {
 	if [ -d ./output ]
 	then
@@ -64,13 +67,21 @@ then
 	cd ..
 elif [ $1 == "-h" ]
 then
-	echo "-i generate random input"
-	echo "-c compile all programs"
-	echo "-e execute all programs, compile if not compiled"
-	echo "-j check programs output"
-	echo "-a run all procedures"
-	echo "-d clean"
-	echo "-h help"
+	echo "-i N		generate random input, N=16 by default"
+	echo "-c 		compile all programs"
+	echo "-e 		execute all programs, compile if not compiled"
+	echo "-j 		check programs output"
+	echo "-a N 	run all procedures, N=16 by default"
+	echo "-d 		clean"
+	echo "-h 		help"
 else
 	echo "invalid command, use -h for help"
 fi
+
+
+
+
+
+end=$(date +%s)
+take=$(( end - start ))
+echo Time taken to execute commands is ${take} seconds.

@@ -99,7 +99,9 @@ static string gen_input(const string& fmt) {
             assert(0);
         }
         // split when finding ' ' or '(' or '\n'
-        token = strtok(nullptr, " (\n");
+        do {
+            token = strtok(nullptr, " (");
+        } while (token != nullptr && token[0] != ' ' && token[0] != '\n');
     }
     return ret;
 }
