@@ -1,5 +1,6 @@
 #include "input_generator.h"
 
+int BATCH_SIZE = 16;
 
 static void generate_outputfiles_within_folder(const string& foldername) {
     char format_file_addr[64] = "";
@@ -22,7 +23,7 @@ static void generate_outputfiles_within_folder(const string& foldername) {
             assert(0);
         }
     }
-	
+
     for(int i = 0; i < BATCH_SIZE; i++) {
         char tmp[12] = "";
         sprintf(tmp, "%d.txt", i);
@@ -77,6 +78,13 @@ int main(int argc, char** argv) {
         printf_r("name of targeted folder is necessary\n");
         assert(0);
     }
+    if(argc >= 3) {
+        if(sscanf(argv[2], "%d", &BATCH_SIZE) == 0) {
+            BATCH_SIZE = 16;
+        }
+    }
+    printf("batch size=%d\n", BATCH_SIZE);
+
     // set seed for `generate_input`
     srand((unsigned)time(0));
     run(argc, argv);

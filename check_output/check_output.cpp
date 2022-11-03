@@ -13,6 +13,14 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+
+#define L_RED       "\e[1;31m"
+#define L_GREEN     "\e[1;32m"
+#define NONE        "\e[0m"
+#define printf_g(fmt, ...)   printf(L_GREEN fmt NONE, ##__VA_ARGS__)
+#define printf_r(fmt, ...)   printf(L_RED fmt NONE, ##__VA_ARGS__)
+
+
 using namespace std;
 
 
@@ -142,18 +150,27 @@ void record_error_pairs(const string& set_name1, const string& set_name2) {
 }
 
 
+bool flag_num_in_ouputsets = true;
+int num_in_ouputsets;
+
 bool compare_output_set_pair(const string& set_name1, const string& set_name2) {
     // return true if compare runs successfully
     // false if error occurs
     int cnt1 = count_output_files(set_name1);
     int cnt2 = count_output_files(set_name2);
     if(cnt1 != cnt2) {
-        printf("find %d output files in %s, but there are %d output files in %s\n"
+        printf_r("find %d output files in %s, but there are %d output files in %s\n"
                "cannot compare these two output sets\n",
                cnt1, set_name1.c_str(), cnt2, set_name2.c_str());
         record_error_pairs(set_name1, set_name2);
         return false;
     }
+    
+    if(flag_num_in_ouputsets) {
+    	flag_num_in_ouputsets = false;
+    	num_in_ouputsets = cnt1;
+    }
+    
     for(int i = 0; i < cnt1; i++) {
         char tmp[12] = "";
         sprintf(tmp, "/%d.txt", i);
@@ -206,19 +223,22 @@ static void compare_output_within_folder(const string& foldername) {
             cnt += compare_output_set_pair(output_set_names[i], output_set_names[j]);
         }
     }
-    printf("find %d output sets in cluster %s\n"
+    printf_g("find %d output sets in cluster %s\n"
            "compared %d pairs of output sets, %d failed\n",
            output_set_num, folder_path.c_str(), cnt, output_set_num * (output_set_num - 1) / 2 - cnt);
+    
+    printf("find %d output files in each output set\n", num_in_ouputsets);
+    flag_num_in_ouputsets = true;
 }
 
 
 void run(int argc, char** argv) {
     if(chdir(argv[1]) != 0) {
-        printf("fail to change directory to %s\n", argv[1]);
+        printf_r("fail to change directory to %s\n", argv[1]);
         assert(0);
     }
     char* cur_dir = get_current_dir_name();
-    printf("loading output files from directory %s\n", cur_dir);
+    printf_g("loading output files from directory %s\n", cur_dir);
 
     // clear all results
     string record = cur_dir;
@@ -242,7 +262,7 @@ void run(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     if(argc <= 1) {
-        printf("missing arg: targeted directory\n");
+        printf_r("missing arg: targeted directory\n");
         assert(0);
     }
 

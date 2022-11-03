@@ -11,8 +11,11 @@ i=0
 for folder in ${CRTDIR}/*; 
 do
     temp_folder=`basename $folder`
-    folder_array[i]=$temp_folder
-    ((i=i+1))
+    if [ -d $temp_folder ]
+    then
+        folder_array[i]=$temp_folder
+        ((i=i+1))
+    fi
 done
 
 
@@ -40,7 +43,7 @@ do
         ((i=i+1))
     done
 
-    for src_code in ${CRTDIR}/*cpp;
+    for src_code in ${CRTDIR}/*.cpp;
     do
         echo -e "run \e[31m${execut}\e[0m"
         execut=${src_code%.*}
@@ -60,7 +63,14 @@ do
             # echo -e "run \e[31m${execut}\e[0m, input=\e[31m${input_file}\e[0m"
             k=${input_file##*/}
             k=${k%.*}
-            ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+            if [ -f $execut ]
+            then
+                ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+            else
+                g++ ${src_code} -o ${execut} -w # ignore all warnings
+                echo -e "compile \e[31m${src_code}\e[0m as \e[34m${execut}\e[0m"
+                ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+            fi
             # echo "output generated in ${output_folder}/${k}.txt"
         done
     done

@@ -16,7 +16,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#define BATCH_SIZE 16
 
 using namespace std;
 

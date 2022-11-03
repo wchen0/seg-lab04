@@ -13,8 +13,11 @@ i=0
 for folder in ${CRTDIR}/*; 
 do
     temp_folder=`basename $folder`
-    folder_array[i]=$temp_folder
-    ((i=i+1))
+    if [ -d $temp_folder ]
+    then
+        folder_array[i]=$temp_folder
+        ((i=i+1))
+    fi
 done
 
 
