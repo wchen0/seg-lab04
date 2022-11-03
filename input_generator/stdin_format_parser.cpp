@@ -24,7 +24,7 @@ static string gen_rand_int(int left, int right) {
         assert(0);
     }
     int r = rand() % (right - left + 1) + left;
-    char buf[301];
+    char buf[301] = "";
     sprintf(buf, "%d", r);
     string ret = buf;
     return ret;
@@ -63,7 +63,7 @@ static string gen_input(const string& fmt) {
 	// seed set by the caller
     // srand((unsigned)time(0));
 
-    char format[301];
+    char format[30001] = "";		// might overflow
     strcpy(format, fmt.c_str());
     char* token = nullptr;
     token = strtok(format, "(");
@@ -79,22 +79,25 @@ static string gen_input(const string& fmt) {
             assert(sscanf(token, "%d", &right));
             ret += gen_rand_int(left, right);
             ret += ' ';
-        } else if (strcmp(token, "char") == 0) {
+        } 
+        else if (strcmp(token, "char") == 0) {
             ret += gen_rand_char();
             ret += ' ';
-        } else if (strcmp(token, "string") == 0) {
+        } 
+        else if (strcmp(token, "string") == 0) {
             token = strtok(nullptr, ",");
             assert(sscanf(token, "%d", &left));
             token = strtok(nullptr, ")");
             assert(sscanf(token, "%d", &right));
             ret += gen_rand_string(left, right);
             ret += ' ';
-        } else {
-            printf("invaid data type: %s\n", token);
+        } 
+        else {
+            printf("parser finds invaid data type: %s\n", token);
             assert(0);
         }
-        // split when finding ' ' or '('
-        token = strtok(nullptr, " (");
+        // split when finding ' ' or '(' or '\n'
+        token = strtok(nullptr, " (\n");
     }
     return ret;
 }
