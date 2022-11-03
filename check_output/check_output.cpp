@@ -16,24 +16,34 @@
 using namespace std;
 
 
-bool checkIdentical(const string& filename1, const string& filename2) {
+int checkIdentical(const string& filename1, const string& filename2) {
+    // return 0 if not identical
+    // return 1 if identical
+    // return 3 if error occurs
     char ch = 0;
 
     FILE* fp1 = fopen(filename1.c_str(), "r");
+    if(!fp1) return 3;
+
     string str1;
     while(fscanf(fp1, "%c", &ch) && !feof(fp1)) {
         str1 += ch;
     }
     fclose(fp1);
 
+
     FILE* fp2 = fopen(filename2.c_str(), "r");
+    if(!fp2) return 3;
+
     string str2;
     while(fscanf(fp2, "%c", &ch) && !feof(fp2)) {
         str2 += ch;
     }
     fclose(fp2);
 
+
     int l1 = str1.length(), l2 = str2.length();
+    if(l1 != l2) return false;
     int i = 0;
     for(i = 0; i < l1 && i < l2; i++) {
         if(str1[i] != str2[i]) return false;
@@ -86,17 +96,81 @@ int count_output_files(const string& set_name) {
     return cnt;
 }
 
+void record_equivalent_pairs(const string& set_name1, const string& set_name2) {
+    char* cur_dir = get_current_dir_name();
+    string record_filename = cur_dir;
+    free(cur_dir);
+    record_filename += "/equal.csv";
 
-void compare_output_set_pair(const string& set_name1, const string& set_name2) {
+    FILE* fp = fopen(record_filename.c_str(), "a");
+    if(!fp) {
+        printf("cannot create result file: %s\n", record_filename.c_str());
+        assert(0);
+    }
+    fprintf(fp, "%s,%s\n", set_name1.c_str(), set_name2.c_str());
+    fclose(fp);
+}
+
+void record_inequivalent_pairs(const string& set_name1, const string& set_name2) {
+    char* cur_dir = get_current_dir_name();
+    string record_filename = cur_dir;
+    free(cur_dir);
+    record_filename += "/inequal.csv";
+
+    FILE* fp = fopen(record_filename.c_str(), "a");
+    if(!fp) {
+        printf("cannot create result file: %s\n", record_filename.c_str());
+        assert(0);
+    }
+    fprintf(fp, "%s,%s\n", set_name1.c_str(), set_name2.c_str());
+    fclose(fp);
+}
+
+void record_error_pairs(const string& set_name1, const string& set_name2) {
+    char* cur_dir = get_current_dir_name();
+    string record_filename = cur_dir;
+    free(cur_dir);
+    record_filename += "/error.csv";
+
+    FILE* fp = fopen(record_filename.c_str(), "a");
+    if(!fp) {
+        printf("cannot create result file: %s\n", record_filename.c_str());
+        assert(0);
+    }
+    fprintf(fp, "%s,%s\n", set_name1.c_str(), set_name2.c_str());
+    fclose(fp);
+}
+
+
+bool compare_output_set_pair(const string& set_name1, const string& set_name2) {
+    // return true if compare runs successfully
+    // false if error occurs
     int cnt1 = count_output_files(set_name1);
     int cnt2 = count_output_files(set_name2);
     if(cnt1 != cnt2) {
         printf("find %d output files in %s, but there are %d output files in %s\n"
                "cannot compare these two output sets\n",
                cnt1, set_name1.c_str(), cnt2, set_name2.c_str());
-        assert(0);
+        record_error_pairs(set_name1, set_name2);
+        return false;
     }
-    
+    for(int i = 0; i < cnt1; i++) {
+        char tmp[12] = "";
+        sprintf(tmp, "/%d.txt", i);
+        string fn1 = set_name1 + tmp;
+        string fn2 = set_name2 + tmp;
+        int ans = checkIdentical(fn1, fn2);
+        if(ans == 0) {
+            record_inequivalent_pairs(set_name1, set_name2);
+            return true;
+        }
+        if(ans == 3) {
+            record_error_pairs(set_name1, set_name2);
+            return false;
+        }
+    }
+    record_equivalent_pairs(set_name1, set_name2);
+    return true;
 }
 
 
@@ -125,13 +199,16 @@ static void compare_output_within_folder(const string& foldername) {
     }
     closedir(dirStream);
 
-    vector<pair<string, string>> output_set_pair;
     int output_set_num = output_set_names.size();
+    int cnt = 0;
     for(int i = 0; i < output_set_num; i++) {
         for(int j = i + 1; j < output_set_num; j++) {
-            compare_output_set_pair(output_set_names[i], output_set_names[j]);
+            cnt += compare_output_set_pair(output_set_names[i], output_set_names[j]);
         }
     }
+    printf("find %d output sets in cluster %s\n"
+           "compared %d pairs of output sets, %d failed\n",
+           output_set_num, folder_path.c_str(), cnt, output_set_num * (output_set_num - 1) / 2 - cnt);
 }
 
 
@@ -142,7 +219,19 @@ void run(int argc, char** argv) {
     }
     char* cur_dir = get_current_dir_name();
     printf("loading output files from directory %s\n", cur_dir);
+
+    // clear all results
+    string record = cur_dir;
     free(cur_dir);
+    FILE* fp = fopen((record + "/equal.csv").c_str(), "w");
+    assert(fp);
+    fclose(fp);
+    fp = fopen((record + "/inequal.csv").c_str(), "w");
+    assert(fp);
+    fclose(fp);
+    fp = fopen((record + "/error.csv").c_str(), "w");
+    assert(fp);
+    fclose(fp);
 
     vector<string> foldernames = get_all_foldernames();
     for(const string& foldername : foldernames) {
