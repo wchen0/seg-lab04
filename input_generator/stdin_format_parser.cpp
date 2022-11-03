@@ -95,7 +95,7 @@ static string gen_input(const string& fmt) {
             ret += ' ';
         } 
         else {
-            printf("parser finds invaid data type: %s\n", token);
+            printf_r("parser finds invaid data type: %s", token);
             assert(0);
         }
         // split when finding ' ' or '(' or '\n'
