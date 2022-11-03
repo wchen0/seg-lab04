@@ -30,6 +30,7 @@ static string gen_rand_int(int left, int right) {
     return ret;
 }
 
+
 static char gen_rand_char() {
     char r1 = rand() % ('z' - 'a' + 1) + 'a';
     char r2 = rand() % ('Z' - 'A' + 1) + 'A';
@@ -39,6 +40,7 @@ static char gen_rand_char() {
         return r2;
     }
 }
+
 
 static string gen_rand_string(int left, int right) {
     if(right < left) {
@@ -102,6 +104,7 @@ static string gen_input(const string& fmt) {
     return ret;
 }
 
+
 void generate_input(const string& fmt_filename, const string& ret_filename) {
     string fmt = read_fmt_file(fmt_filename);
     string input = gen_input(fmt);
@@ -114,3 +117,4 @@ void generate_input(const string& fmt_filename, const string& ret_filename) {
     fclose(fp);
     // printf_g("write random data in %s\n", ret_filename.c_str());
 }
+
