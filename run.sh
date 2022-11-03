@@ -53,6 +53,15 @@ then
 	bash execute_all.sh ${targeted_dir}
 	./check_output/test ${targeted_dir}
 	move_output
+elif [ $1 == "-d" ]
+then
+	bash clean.sh ${targeted_dir}
+	cd ./input_generator
+	make clean
+	cd ..
+	cd ./check_output
+	make clean
+	cd ..
 elif [ $1 == "-h" ]
 then
 	echo "-i generate random input"
@@ -60,6 +69,7 @@ then
 	echo "-e execute all programs, compile if not compiled"
 	echo "-j check programs output"
 	echo "-a run all procedures"
+	echo "-d clean"
 	echo "-h help"
 else
 	echo "invalid command, use -h for help"
