@@ -2,7 +2,7 @@
 #include <cstdio>
 
 using namespace std;
-
+ 
 int a[200005];
 
 int main(void) {
