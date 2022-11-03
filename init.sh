@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd ./check_output
-g++ ./check_output.cpp -o test
+make
 cd ..
 
 cd ./input_generator
