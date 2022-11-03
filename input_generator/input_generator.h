@@ -19,6 +19,7 @@
 
 using namespace std;
 
+
 void generate_input(const string& fmt_filename, const string& ret_filename);
 
 
