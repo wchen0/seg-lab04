@@ -198,7 +198,8 @@ bool compare_one_output_set_pair(const string& set_name1, const string& set_name
     }
 
     if (cnt1 == 0 && cnt2 == 0) {
-        printf("both %s and %s have 0 output file, skip\n");
+        // ignore if both are RE or TLE
+        printf("both %s and %s have 0 output file, skip\n", set_name1.c_str(), set_name2.c_str());
         return true;
     }
 

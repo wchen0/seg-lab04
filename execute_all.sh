@@ -28,10 +28,10 @@ done
 base_dir=${CRTDIR}
 
 
-# clear TLE.txt
-if [ -f ../TLE.txt ]
+# clear RE.txt
+if [ -f ../RE.txt ]
 then
-    rm ../TLE.txt
+    rm ../RE.txt
 fi
 
 
@@ -74,12 +74,13 @@ do
             then
                 start=$(date +%s)
                 timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                RETURN=$?
                 end=$(date +%s)
                 take=$(( end - start ))
-                if [ $take -gt 7 ]
+                if [ $take -gt 7 ] || [ $RETURN != 0 ]
                 then
-                    echo "${execut} Time Limit Exceeded"
-                    echo "${execut}" >> ../../TLE.txt
+                    echo "${execut} Runtime Error, RETURN=${RETURN}"
+                    echo "${execut}" >> ../../RE.txt
                     rm "${output_folder}/${k}.txt"
                 fi
             else
@@ -88,12 +89,13 @@ do
                 
                 start=$(date +%s)
                 timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                RETURN=$?
                 end=$(date +%s)
                 take=$(( end - start ))
-                if [ $take -gt 7 ]
+                if [ $take -gt 7 ] || [ $RETURN != 0 ]
                 then
-                    echo "${execut} Time Limit Exceeded"
-                    echo "${execut}" >> ../../TLE.txt
+                    echo "${execut} Runtime Error, RETURN=${RETURN}"
+                    echo "${execut}" >> ../../RE.txt
                     rm "${output_folder}/${k}.txt"
                 fi
             fi
