@@ -1,3 +1,12 @@
-/home/cwt/Seg/input/my_test/7 Run Time Error
-/home/cwt/Seg/input/my_test/6 Run Time Error
-/home/cwt/Seg/input/my_test/7 Run Time Error
+/home/cwt/Seg/input/my_test/6
+/home/cwt/Seg/input/my_test/6
+/home/cwt/Seg/input/my_test/6
+/home/cwt/Seg/input/my_test/6
+/home/cwt/Seg/input/my_test/6
+/home/cwt/Seg/input/my_test/6
+/home/cwt/Seg/input/my_test/7
+/home/cwt/Seg/input/my_test/7
+/home/cwt/Seg/input/my_test/7
+/home/cwt/Seg/input/my_test/7
+/home/cwt/Seg/input/my_test/7
+/home/cwt/Seg/input/my_test/7

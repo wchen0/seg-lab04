@@ -59,12 +59,18 @@ then
 elif [ $1 == "-d" ]
 then
 	bash clean.sh ${targeted_dir}
-	cd ./input_generator
-	make clean
-	cd ..
-	cd ./check_output
-	make clean
-	cd ..
+	if [ -z $2 ]
+	then
+		:
+	elif [ $2 == "1" ]
+	then
+		cd ./input_generator
+		make clean
+		cd ..
+		cd ./check_output
+		make clean
+		cd ..
+	fi
 elif [ $1 == "-h" ]
 then
 	echo "-i N		generate random input, N=16 by default"

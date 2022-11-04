@@ -28,6 +28,12 @@ done
 base_dir=${CRTDIR}
 
 
+# clear TLE.txt
+if [ -f ../TLE.txt ]
+then
+    rm ../TLE.txt
+fi
+
 
 for i in "${!folder_array[@]}"
 do
@@ -58,26 +64,38 @@ do
             mkdir ${output_folder}
         fi
 
-        for input_file in ${input_folder}/*.txt
+        for input_file in ${input_folder}/*.txt;
         do
             # echo -e "run \e[31m${execut}\e[0m, input=\e[31m${input_file}\e[0m"
+            # k is a number
             k=${input_file##*/}
             k=${k%.*}
             if [ -f $execut ]
             then
                 start=$(date +%s)
-                timeout 6 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
                 end=$(date +%s)
                 take=$(( end - start ))
-                if [ $take -gt 5 ]
+                if [ $take -gt 7 ]
                 then
                     echo "${execut} Run Time Error"
-                    echo "${execut} Run Time Error" >> ../../TLE.txt
+                    echo "${execut}" >> ../../TLE.txt
+                    rm "${output_folder}/${k}.txt"
                 fi
             else
                 g++ ${src_code} -o ${execut} -w # ignore all warnings
                 echo -e "compile \e[31m${src_code}\e[0m as \e[34m${execut}\e[0m"
-                ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                
+                start=$(date +%s)
+                timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                end=$(date +%s)
+                take=$(( end - start ))
+                if [ $take -gt 7 ]
+                then
+                    echo "${execut} Run Time Error"
+                    echo "${execut}" >> ../../TLE.txt
+                    rm "${output_folder}/${k}.txt"
+                fi
             fi
             # echo "output generated in ${output_folder}/${k}.txt"
         done

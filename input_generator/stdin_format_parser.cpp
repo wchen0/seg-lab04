@@ -36,7 +36,8 @@ static char gen_rand_char() {
     char r2 = rand() % ('Z' - 'A' + 1) + 'A';
     if (rand() % 2 == 0) {
         return r1;
-    } else {
+    } 
+    else {
         return r2;
     }
 }
@@ -98,10 +99,8 @@ static string gen_input(const string& fmt) {
             printf_r("parser finds invaid data type: %s", token);
             assert(0);
         }
-        // split when finding ' ' or '(' or '\n'
-        do {
-            token = strtok(nullptr, " (");
-        } while (token != nullptr && token[0] != ' ' && token[0] != '\n');
+        // split when finding ' ' or '('
+        token = strtok(nullptr, " (");
     }
     return ret;
 }
