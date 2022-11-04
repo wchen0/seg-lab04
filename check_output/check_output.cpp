@@ -197,6 +197,11 @@ bool compare_one_output_set_pair(const string& set_name1, const string& set_name
         return false;
     }
 
+    if (cnt1 == 0 && cnt2 == 0) {
+        printf("both %s and %s have 0 output file, skip\n");
+        return true;
+    }
+
     if (flag_num_in_ouputsets) {
         flag_num_in_ouputsets = false;
         num_in_ouputsets = cnt1;

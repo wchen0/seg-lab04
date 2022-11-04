@@ -78,7 +78,7 @@ do
                 take=$(( end - start ))
                 if [ $take -gt 7 ]
                 then
-                    echo "${execut} Run Time Error"
+                    echo "${execut} Time Limit Exceeded"
                     echo "${execut}" >> ../../TLE.txt
                     rm "${output_folder}/${k}.txt"
                 fi
@@ -92,7 +92,7 @@ do
                 take=$(( end - start ))
                 if [ $take -gt 7 ]
                 then
-                    echo "${execut} Run Time Error"
+                    echo "${execut} Time Limit Exceeded"
                     echo "${execut}" >> ../../TLE.txt
                     rm "${output_folder}/${k}.txt"
                 fi
