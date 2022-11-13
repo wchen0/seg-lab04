@@ -1,0 +1,15 @@
+./input/my_test/5.cpp,./input/my_test/7.cpp
+./input/my_test/5.cpp,./input/my_test/6.cpp
+./input/my_test/5.cpp,./input/my_test/8.cpp
+./input/my_test/3.cpp,./input/my_test/7.cpp
+./input/my_test/3.cpp,./input/my_test/6.cpp
+./input/my_test/3.cpp,./input/my_test/8.cpp
+./input/my_test/7.cpp,./input/my_test/2.cpp
+./input/my_test/7.cpp,./input/my_test/4.cpp
+./input/my_test/7.cpp,./input/my_test/1.cpp
+./input/my_test/2.cpp,./input/my_test/6.cpp
+./input/my_test/2.cpp,./input/my_test/8.cpp
+./input/my_test/6.cpp,./input/my_test/4.cpp
+./input/my_test/6.cpp,./input/my_test/1.cpp
+./input/my_test/8.cpp,./input/my_test/4.cpp
+./input/my_test/8.cpp,./input/my_test/1.cpp

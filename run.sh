@@ -73,13 +73,43 @@ then
 	fi
 elif [ $1 == "-h" ]
 then
+	echo "----------------------------------------------------------------------------------------------"
 	echo "-i N		generate random input, N=16 by default"
 	echo "-c 		compile all programs"
 	echo "-e 		execute all programs, compile if not compiled"
 	echo "-j 		check programs output"
-	echo "-a N 	run all procedures, N=16 by default"
-	echo "-d 		clean"
+	echo "-a N 		run all procedures, N=16 by default"
+	echo "-d 		clean input directory, use -d 1 to clean all"
 	echo "-h 		help"
+	echo "-s N		show results, N=0 for inequal pairs, 1 for equal, 2 for error, 3 for RE files"
+	echo "----------------------------------------------------------------------------------------------"
+
+elif [ $1 == "-s" ]
+then
+	if [ -z $2 ]
+	then
+		echo "invalid command, use -h for help"
+	elif [ $2 == "1" ]
+	then
+		echo "Equal pairs"
+		value=`cat ./output/equal.csv`
+		echo "$value"
+	elif [ $2 == "0" ]
+	then
+		echo "Inequal pairs"
+		value=`cat ./output/inequal.csv`
+		echo "$value"
+	elif [ $2 == "2" ]
+	then
+		echo "Error pairs"
+		value=`cat ./output/error.csv`
+		echo "$value"
+	elif [ $2 == "3" ]
+	then
+		echo "Runtime error files:"
+		value=`cat ./RE.txt`
+		echo "$value"
+	fi
 else
 	echo "invalid command, use -h for help"
 fi

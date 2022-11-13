@@ -5,6 +5,6 @@ int main(int argc, char const* argv[]) {
     for(int i = 0; i < 500000; i++) {
         std::cin >> ii;
         std::cout << ii << std::endl;
-    }
+    
     return 0;
 }

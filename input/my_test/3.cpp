@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int A[200005];
+int A[1];
 
 int main(void) {
     int n = 32, t, L = 0x80000000;

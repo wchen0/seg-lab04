@@ -73,7 +73,7 @@ do
             if [ -f $execut ]
             then
                 start=$(date +%s)
-                timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt" 2>"${output_folder}/${k}.txt"
                 RETURN=$?
                 end=$(date +%s)
                 take=$(( end - start ))
@@ -88,7 +88,7 @@ do
                 echo -e "compile \e[31m${src_code}\e[0m as \e[34m${execut}\e[0m"
                 
                 start=$(date +%s)
-                timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt"
+                timeout 8 ${execut} <"${input_file}">"${output_folder}/${k}.txt" 2>"${output_folder}/${k}.txt"
                 RETURN=$?
                 end=$(date +%s)
                 take=$(( end - start ))

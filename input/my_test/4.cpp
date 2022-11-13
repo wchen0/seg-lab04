@@ -2,11 +2,11 @@
 #include <cstdio>
 
 using namespace std;
-
-int a[200005];
+ 
+int a[100];
 
 int main(void) {
-    int n = 31, t, largest = 0x80000000;
+    int n = 32, t, largest = -1000;
     for(int i = 1; i <= n; i++) {
         cin >> t;
         if(largest < t) largest = t;
